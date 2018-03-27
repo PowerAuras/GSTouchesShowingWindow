@@ -70,15 +70,15 @@
 
 - (void)touchEnded:(UITouch *)touch view:(UIView *)view {
     NSDate *touchStartDate = [self.touchesStartDatesMapTable objectForKey:touch];
-    NSTimeInterval touchDuration = [[NSDate date] timeIntervalSinceDate:touchStartDate];
+//    NSTimeInterval touchDuration = [[NSDate date] timeIntervalSinceDate:touchStartDate];
     [self.touchesStartDatesMapTable removeObjectForKey:touch];
     
-    if (touchDuration < SHORT_TAP_TRESHOLD_DURATION) {
-        [self showExpandingCircleAtPosition:[touch locationInView:view] inView:view];
-    }
+//    if (touchDuration < SHORT_TAP_TRESHOLD_DURATION) {
+//        [self showExpandingCircleAtPosition:[touch locationInView:view] inView:view];
+//    }
     
     UIImageView *touchImgView = [self touchImageViewForTouch:touch];
-    [UIView animateWithDuration:0.1
+    [UIView animateWithDuration:0.25
                      animations:^{
                          touchImgView.alpha = 0.0f;
                          touchImgView.transform = CGAffineTransformMakeScale(1.13, 1.13);
@@ -169,8 +169,17 @@
     if (self = [super init]) {
         self.backingArray = [[NSMutableArray alloc] init];
         for (NSUInteger i = 0; i < count; i++) {
-            NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-            UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:TOUCH_IMAGE_NAME inBundle:bundle compatibleWithTraitCollection:nil]];
+            UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 35, 35)];
+            backView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:.5];
+            backView.layer.shadowRadius = 3;
+            backView.userInteractionEnabled = NO;
+            backView.layer.cornerRadius = CGRectGetWidth(backView.frame)/2;
+            
+            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+            view.backgroundColor = [UIColor whiteColor];
+            view.layer.cornerRadius = CGRectGetHeight(view.frame)/2;
+            view.center = backView.center;
+            [backView addSubview:view];
             [self.backingArray addObject:imgView];
         }
     }
