@@ -180,7 +180,7 @@
             view.layer.cornerRadius = CGRectGetHeight(view.frame)/2;
             view.center = backView.center;
             [backView addSubview:view];
-            [self.backingArray addObject:imgView];
+            [self.backingArray addObject:backView];
         }
     }
     return self;
